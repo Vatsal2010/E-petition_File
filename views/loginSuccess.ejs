@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Success</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://i.pinimg.com/originals/18/69/1c/18691c19d0a3fea43be48d2b0a002a87.png'); /* Replace with your actual image path */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .message {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .btn-home {
+            background-color: #007bff;
+        }
+        .btn-home:hover {
+            background-color: #0056b3;
+        }
+        .fact-box {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .fact-box h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message">Congrats, you have successfully logged in!</div>
+        <button class="btn btn-home" onclick="goToHome()">Go to Homepage</button>
+        <button class="btn" onclick="goToDashboard()">Go to Dashboard</button>
+
+        <div class="fact-box">
+            <h2>Did You Know?</h2>
+            <p>E-petitions have become a powerful tool for citizens to make their voices heard. They can influence government policies and bring about real change.</p>
+        </div>
+    </div>
+
+    <script>
+        function goToHome() {
+            window.location.href = '/'; // Adjust the path as needed
+        }
+
+        function goToDashboard() {
+            window.location.href = '/dashboard'; // Adjust the path as needed
+        }
+    </script>
+</body>
+</html>

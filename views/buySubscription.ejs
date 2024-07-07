@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://t4.ftcdn.net/jpg/01/47/83/81/360_F_147838124_YZlIKudatjV5qSN1PmHDLKJSh2cm32nR.jpg'); /* Make sure to replace with your actual image path */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .amount {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .btn-back {
+            background-color: #007bff;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="amount">Amount to Pay: 200</div>
+        <form id="paymentForm" onsubmit="return proceedToPayment()">
+            <div class="form-group">
+                <label for="name">Name (as per Aadhar):</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile No. linked with Aadhar:</label>
+                <input type="text" id="mobile" name="mobile" required>
+            </div>
+            <div class="form-group">
+                <label for="aadhar">Aadhar No.:</label>
+                <input type="text" id="aadhar" name="aadhar" required>
+            </div>
+            <button type="submit" class="btn" onclick="goForward()">Proceed to Payment</button>
+            <button type="button" class="btn btn-back" onclick="goBackToHome()">Back to Homepage</button>
+        </form>
+    </div>
+
+    <script>
+        function proceedToPayment() {
+            // Validate the form
+            const form = document.getElementById('paymentForm');
+            if (form.checkValidity()) {
+                // Implement your payment logic here
+                alert('Proceeding to payment...');
+                // You can also send form data to the server if needed
+                return true; // Return true to allow form submission if using a real server
+            } else {
+                alert('Please fill out all required fields.');
+                return false; // Prevent form submission
+            }
+        }
+
+        function goBackToHome() {
+            window.location.href = '/'; // Adjust the path as needed
+        }
+        function goForward() {
+            window.location.href = '/index'; // Adjust the path as needed
+        }
+    </script>
+</body>
+</html>

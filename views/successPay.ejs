@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa, #a9a9ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn.dashboard {
+            background: #28a745;
+        }
+        .btn.dashboard:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Successful</h1>
+        <p id="paymentDetails"></p>
+        <div class="buttons">
+            <a href="/dashboard" class="btn dashboard">Go to Dashboard</a>
+            <a href="/" class="btn">Go to Home</a>
+        </div>
+    </div>
+    <script>
+        // Function to get query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                payment_id: params.get('payment_id'),
+                order_id: params.get('order_id'),
+                amount: params.get('amount')
+            };
+        }
+
+        // Display the payment details
+        window.onload = function() {
+            const params = getQueryParams();
+            const paymentDetails = `Payment ID: ${params.payment_id}, Order ID: ${params.order_id}, Amount: ${params.amount}`;
+            document.getElementById('paymentDetails').innerText = paymentDetails;
+        }
+    </script>
+</body>
+</html>

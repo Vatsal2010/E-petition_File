@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.squarespace-cdn.com/content/v1/5952a854e6f2e1b8842d6054/1539025480107-760RHZ0NZX1LKIBWGNQU/509364546-612x612.jpg?format=1500w'); /* Replace with your actual image path */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            max-width: 100%;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #888;
+        }
+        button {
+            padding: 15px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Petition</h2>
+        <form action="/create-project" method="POST">
+            <input type="text" name="title" placeholder="Project Title" required>
+            <input type="text" name="category" placeholder="Category" required>
+            <input type="text" name="description" placeholder="Description" required>
+            <input type="url" name="url" placeholder="Project URL" required>
+            <input type="url" name="photoUrl" placeholder="Photo URL" required>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</body>
+</html>

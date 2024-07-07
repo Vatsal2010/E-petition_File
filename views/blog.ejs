@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script async src="https://kit.fontawesome.com/20970c5fb1.js" crossorigin="anonymous"></script>
+  <title>Blog</title>
+  <style>
+    .project-details {
+      display: none;
+      background-color:white;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+      margin-top: 10px;
+    }
+
+    body {
+      background-color:white;
+      color: black;
+    }
+
+    .enroll-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+    }
+
+    .enroll-button:hover {
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50;
+    }
+
+    .description {
+      /* background-color: #007BFF; */
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .description p {
+      margin: 5px 0;
+    }
+
+    .description .highlight {
+      color: #007BFF;
+    }
+
+    .description a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .description a:hover {
+      text-decoration: underline;
+    }
+
+    .filter-button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 18px;
+      margin: 20px auto;
+      cursor: pointer;
+      border-radius: 10px;
+      transition-duration: 0.4s;
+    }
+
+    .filter-button:hover {
+      background-color: white;
+      color: black;
+      border: 2px solid #007BFF;
+    }
+
+    .filter-container {
+      text-align: center;
+    }
+
+    .filter-form {
+      display: none;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 60%;
+      max-width: 600px;
+    }
+
+    .filter-form label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .filter-form input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .filter-form button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+    }
+
+    .filter-form button:hover {
+      background-color: white;
+      color: black;
+      border: 2px solid #007BFF;
+    }
+  </style>
+  <script>
+    function toggleDetails(id) {
+      var details = document.getElementById(id);
+      if (details.style.display === "none") {
+        details.style.display = "block";
+      } else {
+        details.style.display = "none";
+      }
+    }
+
+    function toggleFilterForm() {
+      var form = document.getElementById('filter-form');
+      if (form.style.display === "none") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
+      }
+    }
+
+    function submitFilterForm() {
+      var form = document.getElementById('filter-form');
+      form.submit();
+    }
+
+    document.querySelectorAll('.enroll-button').forEach(button => {
+    button.addEventListener('click', async function() {
+        const projectId = this.getAttribute('data-project-id');
+        const response = await fetch('/enroll', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ projectId: projectId })
+        });
+        if (response.ok) {
+            // Handle successful enrollment (e.g., show a success message)
+        } else {
+            // Handle enrollment error (e.g., show an error message)
+        }
+    });
+});
+
+  </script>
+</head>
+
+<body>
+  <%- include("partials/primaryHeader.ejs") %>
+
+  <!-- blog -->
+  <h1 class="text-6xl mt-12 font-bold text-center">Petition Categories</h1>
+
+  <!-- Filter button -->
+  <div class="filter-container">
+    <button class="filter-button" onclick="toggleFilterForm()">Filter</button>
+  </div>
+
+  <!-- Filter form -->
+  <form id="filter-form" class="filter-form" action="/blog/filter" method="get">
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category">
+    <label for="user">User:</label>
+    <input type="text" id="user" name="user">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title">
+    <button type="button" onclick="submitFilterForm()">Submit</button>
+  </form>
+
+  <% blogs.forEach(blog => { %>
+    <h2 class="text-4xl mt-8 font-semibold text-center " style=" background-color: #007BFF; color:white; padding: 5px;">Category: <%= blog.category %></h2>
+    <div class="grid gap-12 m-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+      <% blog.projects.forEach(project => { %>
+        <% if (project.status !== 'pending') { %>
+          <div class="card border rounded-lg flex flex-col justify-center cursor-pointer border-b-8 shadow-xl border-b-white hover:border-b-8 hover:border-gray-600 relative " style="background-color: #007BFF; padding: 3px;">
+            <div class="mx-4 max-w-full w-auto bg-white border shadow relative rounded-lg">
+                <div class="flex flex-col justify-center p-8 rounded-lg">
+                    <img src="<%= project.image %>" alt="Project Image" class="rounded-full w-20 h-20 mx-auto mb-4">
+                    <!-- Display number of users enrolled -->
+                    <div class="text-center text-sm text-white bg-gray-800 rounded-md py-1 mb-2">Users Enrolled: <%= project.usersEnrolled.length %></div>
+                    <div class="mb-4 text-xl font-semibold cursor-pointer" onclick="toggleDetails('<%= project._id %>')">
+                        Creator: <%= project.User %> 
+                        <br>
+                        Title: <%= project.title %> 
+                        <br>
+                        Dated: <%= project.date %>
+                        <br>
+                        <button class="enroll-button" data-project-id="<%= project._id %>">Enroll</button>
+                    </div>
+                    <div id="<%= project._id %>" class="project-details">
+                        <div class="description">
+                            <p class="my-2 font-light text-lg">Description: <span class="highlight"><%= project.description %></span></p>
+                            <p class="my-2 font-light text-lg">Category: <%= project.category %></p>
+                            <p class="my-2 font-light text-lg">URL: <a href="<%= project.urlString %>" target="_blank" class="highlight"><%= project.urlString %></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <% } %>
+      <% }) %>
+    </div>
+  <% }) %>
+
+  <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script async src="https://kit.fontawesome.com/20970c5fb1.js" crossorigin="anonymous"></script>
+  <title>Blog</title>
+  <style>
+    .project-details {
+      display: none; /* Initial state hidden */
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+      margin-top: 10px;
+    }
+
+    body {
+      background-color: lightblue;
+      color: black;
+    }
+
+    .enroll-button, .toggle-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+    }
+
+    .enroll-button:hover, .toggle-button:hover {
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50;
+    }
+
+    .description {
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .description p {
+      margin: 5px 0;
+    }
+
+    .description .highlight {
+      color: #007BFF;
+    }
+
+    .description a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .description a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    function toggleDetails(id) {
+      var details = document.getElementById(id);
+      if (details.style.display === "none") {
+        details.style.display = "block";
+      } else {
+        details.style.display = "none";
+      }
+    }
+
+    function verifyProject(id) {
+      // var projectElement = document.getElementById(id);
+      // var statusElement = projectElement.querySelector('.project-status');
+
+      // // Update the status in the frontend
+      // statusElement.innerText = 'verified';
+
+      // Send the update to the server
+      fetch(`/projects/${id}/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: 'verified' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('Project verified successfully.');
+        } else {
+          console.error('Error verifying project:', data.message);
+          // Revert the status update in the frontend if the request fails
+          statusElement.innerText = 'pending';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Revert the status update in the frontend if there's an error
+        statusElement.innerText = 'pending';
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <%- include("partials/primaryHeader.ejs") %>
+
+  <!-- blog -->
+  <h1 class="text-6xl mt-12 font-bold text-center">Petition Categories</h1>
+
+  <% blogs.forEach(blog => { %>
+    <h2 class="text-4xl mt-8 font-semibold text-center">Category: <%= blog.category %></h2>
+    <div class="grid gap-12 m-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+      <% blog.projects.forEach(project => { %>
+        <% if (project.status === 'pending') { %>
+          <div class="card border rounded-lg flex flex-col justify-center cursor-pointer border-b-8 shadow-xl border-b-white hover:border-b-8 hover:border-gray-600 relative">
+            <div class="mx-4 max-w-full w-auto bg-white border shadow relative rounded-lg">
+              <div class="flex flex-col justify-center p-8 rounded-lg">
+                <div class="mb-4 text-xl font-semibold">
+                  Creator: <%= project.User %>
+                  <br>
+                  Title: <%= project.title %>
+                  <br>
+                  Dated: <%= project.date %>
+                  <br>
+                  Status: <span class="project-status"><%= project.status %></span>
+                  <br>
+                  <button class="enroll-button" onclick="verifyProject('<%= project._id %>')">Verify</button>
+                  <button class="toggle-button" onclick="toggleDetails('<%= project._id %>')">Toggle Details</button>
+                </div>
+                <div id="<%= project._id %>" class="project-details">
+                  <div class="description">
+                    <p class="my-2 font-light text-lg">Description: <span class="highlight"><%= project.description %></span></p>
+                    <p class="my-2 font-light text-lg">Category: <%= project.category %></p>
+                    <p class="my-2 font-light text-lg">URL: <a href="<%= project.urlString %>" target="_blank" class="highlight"><%= project.urlString %></a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      <% }) %>
+    </div>
+  <% }) %>
+
+  <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

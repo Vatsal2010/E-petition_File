@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Display Signed PDF</title>
+</head>
+<body>
+  <h1>Uploaded Signed PDF</h1>
+  <% if (pdf) { %>
+    <iframe src="data:<%= pdf.contentType %>;base64,<%= pdf.data.toString('base64') %>" width="100%" height="600px"></iframe>
+  <% } else { %>
+    <p>No signed PDF found.</p>
+  <% } %>
+</body>
+</html>
