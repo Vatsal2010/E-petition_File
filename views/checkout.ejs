@@ -34,7 +34,7 @@
     axios.post("/payment/one-time-access").then((info) => {
       console.log(info)
       var options = {
-        "key": "rzp_test_kTsRSaDC8hwztX",
+        "key": "<%= process.env.RZP_KEY_ID %>",
         "name": "Project Managment App",
         "description": "Test Transaction",
         "image": "https://example.com/your_logo",
