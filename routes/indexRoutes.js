@@ -25,7 +25,9 @@ router.get("/", async (req, res) => {
     res.render("home", { workArray, testimonialArray});
 });
 
-
+router.get("/login", (req, res) => {
+    res.render("login");
+});
 router.get("/dashboard", middleware.isLoggedIn, async function (req, res) {
     // populating its posts and rendering dashboard
     let user = await User.findOne({ email: req.user.email })
@@ -33,7 +35,7 @@ router.get("/dashboard", middleware.isLoggedIn, async function (req, res) {
     // console.log(user.subscriptionStatus);
     if (user.subscriptionStatus!=="active") {
 
-        res.render("buySubscription")
+        res.render("index")
     }
     else {
          
@@ -168,7 +170,7 @@ router.post('/request-otp', (req, res) => {
         .then((response) => {
             console.log(response);
             if (response.status === 200 && response.data.result.verified === true) {
-                res.render('login');  // assuming 'login.ejs' is in your views folder
+                res.render('aadhaarSuccess');  // assuming 'login.ejs' is in your views folder
             } else {
                 res.render('alert');
             }
