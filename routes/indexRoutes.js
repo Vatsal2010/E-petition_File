@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     let workArray = await Work.find({});
     let testimonialArray = await Testimonial.find({});
     // middleware.shuffle(workArray);
-    res.render("home", { workArray, testimonialArray});
+    res.render("home",  { workArray, testimonialArray, user: req.user });
 });
 
 router.get("/login", (req, res) => {
@@ -101,8 +101,7 @@ router.get("/blog", async(req, res) => {
 
 router.get('/blog/filter', async (req, res) => {
     const { category, user, title } = req.query;
-  
-    // Build the filter object
+   
     let filter = {};
     
     if (category) {
@@ -128,7 +127,7 @@ router.get('/blog/filter', async (req, res) => {
  
   router.post('/enroll', function(req, res) {
     const projectId = req.body.projectId;
-    const username = req.user.username; // Assuming you have a way to get the username
+    const username = req.user.username;  
     Project.findByIdAndUpdate(projectId, { $push: { usersEnrolled: username } }, function(err, project) {
         if (err) {
             console.log(err);
@@ -308,38 +307,12 @@ router.post('/verify', (req, res) => {
     const digest = shasum.digest('hex');
    
     if (digest === razorpay_signature) {
-        res.status(200).json({ success: true, order_id: razorpay_order_id, payment_id: razorpay_payment_id});
-    // res.render('successPay', { order_id: razorpay_order_id, payment_id: razorpay_payment_id });
+        res.status(200).json({ success: true, order_id: razorpay_order_id, payment_id: razorpay_payment_id}); 
     } else {
         res.status(400).send('Invalid signature');
     }
 });
 
- 
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Route to display the uploaded PDF
 router.get('/display', async (req, res) => {
   try {
     const pdf = await SignedPdf.findOne().sort({ _id: -1 }).exec(); // Get the most recent PDF
