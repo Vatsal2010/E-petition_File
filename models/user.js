@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
   subscriptionStatus: String,
   paymentId: String,
   PhotoID: String,
+  formFilled:{ type: String, default: "notFilled" },
   projects: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -16,6 +16,7 @@ const adminRouter = require('./routes/adminRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
 const multer = require('multer'); 
 const fs = require('fs');
+const user = require("./models/user");
 require('dotenv').config()
  
 const PORT = process.env.PORT || 3000;
@@ -73,7 +74,7 @@ app.get('/upload', (req, res) => {
 
 // Route to handle PDF download
 app.get('/download-pdf', (req, res) => {
-  const filePath = path.join(__dirname, 'public', 'Resume.pdf');
+  const filePath = path.join(__dirname, 'public', 'Epetition.pdf');
   res.download(filePath);
 });
 
@@ -100,8 +101,9 @@ app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
       if (!pdf) {
         return res.status(404).send('No signed PDF found');
       }
-  
+      // req.user.formFilled="filled";
       res.render('display', { pdf });
+
     } catch (error) {
       console.error('Error fetching PDF:', error);
       res.status(500).send('Error fetching PDF');

@@ -68,7 +68,15 @@
         <h2>Create Petition</h2>
         <form action="/create-project" method="POST">
             <input type="text" name="title" placeholder="Project Title" required>
-            <input type="text" name="category" placeholder="Category" required>
+            <select name="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Law">Law</option>
+                <option value="Wildlife">Wildlife</option>
+                <option value="Education">Education</option>
+                <option value="Government">Government</option>
+                <option value="Sports">Sports</option>
+                <option value="Healthcare">Healthcare</option>
+            </select>
             <input type="text" name="description" placeholder="Description" required>
             <input type="url" name="url" placeholder="Project URL" required>
             <input type="url" name="photoUrl" placeholder="Photo URL" required>

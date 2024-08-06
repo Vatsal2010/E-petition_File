@@ -140,7 +140,13 @@ router.get('/blog/filter', async (req, res) => {
 
 // Route to render project creation form
 router.get('/create-project', (req, res) => {
+    // console.log(req.user.formFilled);
+    // if(req.user.formFilled == "filled"){
+
     res.render('createProject');
+
+// }
+// else{req.user.formFilled ="filled";res.render('upload'); }
 });
 router.get("/aadhaar",(req,res)=>{
     res.render("aadhaar");
@@ -180,10 +186,12 @@ router.post('/request-otp', (req, res) => {
         });
     });
    
-    
+
 router.post("/create-project", middleware.isLoggedIn, function (req, res) {
-    // get data from form and add to projectList array
+
+     
     User.findOne({ email: req.user.email }, (err, user) => {
+         
         if (user.subscriptionStatus == "active") {
             Project.create(
                 {
@@ -232,12 +240,13 @@ router.post("/create-project", middleware.isLoggedIn, function (req, res) {
                     });
                 },
             );
-             
+       
             res.redirect("/dashboard");
         }
         else {
             res.redirect("/buySubscription");
         }
+     
     })
 });
 
