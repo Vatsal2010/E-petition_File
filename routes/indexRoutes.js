@@ -51,7 +51,7 @@ router.get("/dashboard", middleware.isLoggedIn, async function (req, res) {
 
 
 router.get("/contact-us", (req, res) => {
-    res.render("contactus", { isQuerySubmitted: false });
+    res.render("contactus", { isQuerySubmitted: false, user: req.user });
 });
 
 
@@ -95,7 +95,7 @@ router.get("/our-work/:category", (req, res) => {
 
 router.get("/blog", async(req, res) => {
     const blogs = await Blog.find().populate('projects').exec();
-    res.render('blog', { blogs: blogs });
+    res.render('blog', { blogs: blogs, user: req.user });
 });
 
 
@@ -284,7 +284,7 @@ router.get("/successPay", middleware.isLoggedIn, async function (req, res) {
         console.log(payment_id);
         console.log(gmail);
 
-        let user = await User.findOne({ email: gmail });
+        let user = await User.findOne({ email: req.user.email });
         if (!user) {
             return res.status(404).send('User not found');
         }

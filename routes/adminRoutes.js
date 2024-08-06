@@ -9,12 +9,12 @@ let WorkCategoryArray = ['App-Development', 'Banner', 'Books', 'Card', 'Digital-
 
 // '/admin'
 router.get('/', (req, res) => {
-    res.render("admin", { isAdminLoggedIn: true, WorkCategoryArray: WorkCategoryArray });
+    res.render("admin", { isAdminLoggedIn: true, WorkCategoryArray: WorkCategoryArray  });
 })
 
 router.get("/verify", async(req, res) => {
     const blogs = await Blog.find().populate('projects').exec();
-    res.render('a', { blogs: blogs });
+    res.render('a', { blogs: blogs, user: req.user });
 });
 
  
