@@ -66,14 +66,14 @@
     <div class="container">
         <div class="amount">Amount to Pay: 200</div>
         <form id="paymentForm" onsubmit="return proceedToPayment()">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="name">Name (as per Aadhar):</label>
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
                 <label for="mobile">Mobile No. linked with Aadhar:</label>
                 <input type="text" id="mobile" name="mobile" required>
-            </div>
+            </div> -->
             <!-- <div class="form-group">
                 <label for="aadhar">Aadhar No.:</label>
                 <input type="text" id="aadhar" name="aadhar" required>
@@ -86,16 +86,16 @@
     <script>
         function proceedToPayment() {
             // Validate the form
-            const form = document.getElementById('paymentForm');
-            if (form.checkValidity()) {
+            // const form = document.getElementById('paymentForm');
+            // if (form.checkValidity()) {
                 // Implement your payment logic here
                 alert('Proceeding to payment...');
                 // You can also send form data to the server if needed
                 return true; // Return true to allow form submission if using a real server
-            } else {
-                alert('Please fill out all required fields.');
-                return false; // Prevent form submission
-            }
+            // } else {
+            //     alert('Please fill out all required fields.');
+            //     return false; // Prevent form submission
+            // }
         }
 
         function goBackToHome() {

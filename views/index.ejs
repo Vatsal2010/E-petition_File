@@ -132,9 +132,9 @@
             <div id="payment-message">Pay ₹200 to Buy Subscription</div>
             
             <form id="payment-form">
-                <input type="text" id="name" name="name" placeholder="Enter your name as per Aadhaar" required>
+                <!-- <input type="text" id="name" name="name" placeholder="Enter your name as per Aadhaar" required>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <input type="text" id="mobile" name="mobile" placeholder="Enter your Mobile number" required>
+                <input type="text" id="mobile" name="mobile" placeholder="Enter your Mobile number" required> -->
                 <button type="submit" id="rzp-button1">Pay</button>
             </form>
         </div>
@@ -144,14 +144,14 @@
         document.getElementById('rzp-button1').onclick = async function (e) {
             e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const gmail = document.getElementById('email').value;
-            const mobile = document.getElementById('mobile').value;
+            const name = "user";
+            const gmail = "example@gmail.com";
+            const mobile = 123456789;
 
-            if (!name || !gmail||!mobile) {
-                alert("Please fill in both fields");
-                return;
-            }
+            // if (!name || !gmail||!mobile) {
+            //     alert("Please fill in both fields");
+            //     return;
+            // }
 
             const response = await fetch('/order', { method: 'POST' });
             const order = await response.json();
@@ -173,8 +173,8 @@
                     })
                     .then(res => res.json())
                     .then(data => {
-                        alert(`Payment Successful! Payment email: &email=${email}`);
-                        window.location.href = `/successPay?payment_id=${data.payment_id}&order_id=${data.order_id}&amount=${200}&gmail=${gmail}`;
+                        alert(`Payment Successful!`);
+                        window.location.href = `/successPay?payment_id=${data.payment_id}&order_id=${data.order_id}&amount=${200}`;
                     })
                     .catch(error => {
                         console.log(error);
