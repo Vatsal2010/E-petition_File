@@ -74,7 +74,7 @@ app.get('/upload', (req, res) => {
 
 // Route to handle PDF download
 app.get('/download-pdf', (req, res) => {
-  const filePath = path.join(__dirname, 'public', 'Epetition.pdf');
+  const filePath = path.join(__dirname, 'public', 'EPetitionFile.pdf');
   res.download(filePath);
 });
 
