@@ -127,7 +127,7 @@ router.get('/blog/filter', async (req, res) => {
  
   router.post('/enroll', function(req, res) {
     const projectId = req.body.projectId;
-    const username = req.user.username;  
+    const username = "req.user.username";  
     Project.findByIdAndUpdate(projectId, { $push: { usersEnrolled: username } }, function(err, project) {
         if (err) {
             console.log(err);
@@ -335,6 +335,10 @@ router.get('/display', async (req, res) => {
     console.error('Error fetching PDF:', error);
     res.status(500).send('Error fetching PDF');
   }
+});
+
+router.get('/enrolled', (req, res) => {
+    res.render('enrolled');
 });
 
 module.exports = router;

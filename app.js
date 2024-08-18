@@ -68,8 +68,10 @@ const SignedPdf = mongoose.model('SignedPdf', signedPdfSchema);
 const upload = multer({ dest: 'uploads/' });
 
 // Route to render the home page with download and upload options
-app.get('/upload', (req, res) => {
-  res.render('upload');
+// Route to render the upload page
+app.get('/upload/:id', (req, res) => {
+  let id = req.params.id;
+  res.render('upload',{id});
 });
 
 // Route to handle PDF download
@@ -78,9 +80,9 @@ app.get('/download-pdf', (req, res) => {
   res.download(filePath);
 });
 
-
-// Route to handle PDF upload
+// Route to handle PDF upload and trigger enrollment
 app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
+  // console.log(req.body);
   try {
     const filePath = path.join(__dirname, 'uploads', req.file.filename);
     const fileData = fs.readFileSync(filePath);
@@ -91,26 +93,36 @@ app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
       contentType: 'application/pdf',
     });
 
-    await newPdf.save(); 
-    // // const pdf=newPdf;
-    // const pdf = await SignedPdf.findOne().sort({ _id: -1 }).exec();
-    // res.render('display', { pdf });
-    try {
-      const pdf = await SignedPdf.findOne().sort({ _id: -1 }).exec(); // Get the most recent PDF
-  
-      if (!pdf) {
-        return res.status(404).send('No signed PDF found');
-      }
-      // req.user.formFilled="filled";
-      res.render('display', { pdf });
+    await newPdf.save(); // Save the uploaded PDF to the database
 
-    } catch (error) {
-      console.error('Error fetching PDF:', error);
-      res.status(500).send('Error fetching PDF');
+    // Get the most recently uploaded PDF
+    const pdf = await SignedPdf.findOne().sort({ _id: -1 }).exec();
+
+    if (!pdf) {
+      return res.status(404).send('No signed PDF found');
+    }
+
+    // After successful upload and save, trigger the enrollment process
+    const projectId = req.body.userId; // Assuming projectId is passed in the request body
+    console.log(projectId);
+    const enrollResponse = await fetch('http://localhost:3000/enroll', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ projectId })
+    });
+
+    if (enrollResponse.ok) {
+      // Render the display page with the uploaded PDF after successful enrollment
+      res.render('display', { pdf });
+    } else {
+      // Handle enrollment failure
+      res.status(500).send('Enrollment failed');
     }
   } catch (error) {
-    console.error('Error saving file:', error);
-    res.status(500).send('Error saving file');
+    console.error('Error saving file or enrolling:', error);
+    res.status(500).send('Error occurred during the process');
   }
 });
 

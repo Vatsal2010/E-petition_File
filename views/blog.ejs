@@ -43,6 +43,26 @@
       border: 2px solid #4CAF50;
     }
 
+    .expand-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+    }
+
+    .expand-button:hover {
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50;
+    }
     .description {
       /* background-color: #007BFF; */
       color: #333;
@@ -135,6 +155,11 @@
     }
   </style>
   <script>
+    async function enrollpetition(id) {
+           const projectId = document.getElementById(id);
+    window.location.href = `/upload/${id}`;
+        
+    }
     function toggleDetails(id) {
       var details = document.getElementById(id);
       if (details.style.display === "none") {
@@ -160,19 +185,26 @@
 
     document.querySelectorAll('.enroll-button').forEach(button => {
     button.addEventListener('click', async function() {
-        const projectId = this.getAttribute('data-project-id');
-        const response = await fetch('/enroll', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ projectId: projectId })
-        });
-        if (response.ok) {
-            // Handle successful enrollment (e.g., show a success message)
-        } else {
-            // Handle enrollment error (e.g., show an error message)
-        }
+    //     const projectId = this.getAttribute('data-project-id');
+    //     const formData = new FormData();
+    //     formData.append('signedPdf', document.querySelector('#pdfInput').files[0]); // Assuming you have a file input for the PDF
+    //     formData.append('projectId', projectId); // Include projectId in the form data
+        window.location.href = '/upload';
+        // try {
+        //     const response = await fetch('/upload-pdf', {
+        //         method: 'POST',
+        //         body: formData
+        //     });
+
+        //     if (response.ok) {
+        //         // Handle successful upload and enrollment
+        //         alert("You are enrolled");
+        //     } else {
+        //         alert("Something went wrong");
+        //     }
+        // } catch (error) {
+        //     alert("An error occurred during the process.");
+        // }
     });
 });
 
@@ -211,7 +243,8 @@
                 <div class="flex flex-col justify-center p-8 rounded-lg">
                     <img src="<%= project.image %>" alt="Project Image" class="rounded-full w-20 h-20 mx-auto mb-4">
                     <!-- Display number of users enrolled -->
-                    <div class="text-center text-sm text-white bg-gray-800 rounded-md py-1 mb-2">Users Enrolled: <%= project.usersEnrolled.length %></div>
+                    <button class="enroll-button" onclick="enrollpetition('<%= project._id %>')">Enroll</button>
+                    <p class="text-center text-sm text-white bg-gray-800 rounded-md py-1 mb-2">Users Enrolled: <%= project.usersEnrolled.length %></p>
                     <div class="mb-4 text-xl font-semibold cursor-pointer" onclick="toggleDetails('<%= project._id %>')">
                         Creator: <%= project.User %> 
                         <br>
@@ -219,7 +252,7 @@
                         <br>
                         Dated: <%= project.date %>
                         <br>
-                        <button class="enroll-button" data-project-id="<%= project._id %>">Enroll</button>
+                        <button class="expand-button" data-project-id="<%= project._id %>">Expand</button>
                     </div>
                     <div id="<%= project._id %>" class="project-details">
                         <div class="description">

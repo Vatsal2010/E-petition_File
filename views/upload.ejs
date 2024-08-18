@@ -66,7 +66,8 @@
   <h1>Download and Upload PDF</h1>
   <button onclick="window.location.href='/download-pdf'">Download PDF</button>
   <form action="/upload-pdf" method="post" enctype="multipart/form-data">
-    <input type="file" name="signedPdf" accept="application/pdf" required>
+    <input type="file" name="signedPdf" accept="application/pdf"  required>
+    <input name="userId" value='<%=id%>' type="text" hidden required>
     <button type="submit">Upload Signed PDF</button>
   </form>
 </body>
