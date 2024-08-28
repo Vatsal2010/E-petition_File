@@ -207,7 +207,7 @@ router.post("/create-project", middleware.isLoggedIn, function (req, res) {
                 },
                 function (err, project) {
                     User.findOne({ email: req.user.email }, function (err, foundUser) {
-                        if (err) console.log(err);
+                        if (err) console.log("user not found");
                         else {
                             foundUser.projects.push(project);
                             foundUser.save(function (err, data) {
