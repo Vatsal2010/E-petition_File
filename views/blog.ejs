@@ -9,102 +9,69 @@
   <script async src="https://kit.fontawesome.com/20970c5fb1.js" crossorigin="anonymous"></script>
   <title>Blog</title>
   <style>
-    .project-details {
-      display: none;
-      background-color:white;
-      padding: 10px;
-      border-left: 4px solid #ccc;
-      margin-top: 10px;
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
-    body {
-      background-color:white;
-      color: black;
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin: 20px 0;
+      color: #007BFF;
+      text-transform: uppercase;
+      letter-spacing: 3px;
     }
 
     .enroll-button {
-      background-color: #4CAF50;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
       color: white;
       border: none;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
+      padding: 12px 30px;
       font-size: 16px;
-      margin: 10px 0;
       cursor: pointer;
-      border-radius: 5px;
-      transition-duration: 0.4s;
+      border-radius: 30px;
+      transition: all 0.3s ease;
     }
 
     .enroll-button:hover {
-      background-color: white;
-      color: black;
-      border: 2px solid #4CAF50;
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3);
     }
 
-    .expand-button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 10px 0;
+    .view-more-link {
+      color: #007BFF;
+      font-weight: bold;
       cursor: pointer;
-      border-radius: 5px;
-      transition-duration: 0.4s;
-    }
-
-    .expand-button:hover {
-      background-color: white;
-      color: black;
-      border: 2px solid #4CAF50;
-    }
-    .description {
-      /* background-color: #007BFF; */
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .description p {
-      margin: 5px 0;
-    }
-
-    .description .highlight {
-      color: #007BFF;
-    }
-
-    .description a {
-      color: #007BFF;
       text-decoration: none;
+      margin-top: 10px;
+      display: inline-block;
+      transition: color 0.3s;
     }
 
-    .description a:hover {
-      text-decoration: underline;
+    .view-more-link:hover {
+      color: #ff416c;
     }
 
     .filter-button {
-      background-color: #007BFF;
+      background: linear-gradient(135deg, #36d1dc, #5b86e5);
       color: white;
-      border: none;
       padding: 15px 30px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
       font-size: 18px;
-      margin: 20px auto;
+      border: none;
       cursor: pointer;
-      border-radius: 10px;
-      transition-duration: 0.4s;
+      border-radius: 50px;
+      display: block;
+      margin: 20px auto;
+      transition: all 0.3s ease;
     }
 
     .filter-button:hover {
-      background-color: white;
-      color: black;
-      border: 2px solid #007BFF;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(91, 134, 229, 0.4);
     }
 
     .filter-container {
@@ -117,7 +84,7 @@
       padding: 20px;
       background-color: #f9f9f9;
       border: 1px solid #ccc;
-      border-radius: 10px;
+      border-radius: 20px;
       width: 60%;
       max-width: 600px;
     }
@@ -133,39 +100,137 @@
       padding: 10px;
       margin-bottom: 20px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 10px;
       box-sizing: border-box;
     }
 
     .filter-form button {
-      background-color: #007BFF;
+      background-color: #36d1dc;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 16px;
       cursor: pointer;
-      border-radius: 5px;
-      transition-duration: 0.4s;
+      border-radius: 10px;
+      transition: all 0.3s ease;
     }
 
     .filter-form button:hover {
-      background-color: white;
-      color: black;
-      border: 2px solid #007BFF;
+      background-color: #5b86e5;
+    }
+
+    /* Card Styling */
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .card img:hover {
+      transform: scale(1.1);
+    }
+
+    .card-content {
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .card-details {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .card-details a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .card-details a:hover {
+      color: #ff416c;
+      text-decoration: underline;
+    }
+
+    .short-description {
+      display: block;
+      max-height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: max-height 0.5s ease;
+    }
+
+    .full-description {
+      max-height: 100%;
+    }
+
+    .toggle-description {
+      color: #007BFF;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .toggle-description:hover {
+      color: #ff416c;
+    }
+
+    /* WhatsApp Share Button */
+    .whatsapp-share-button {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .whatsapp-share-button:hover {
+      background-color: #1ebe58;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
   </style>
+
   <script>
-    async function enrollpetition(id) {
-           const projectId = document.getElementById(id);
-    window.location.href = `/upload/${id}`;
-        
-    }
-    function toggleDetails(id) {
-      var details = document.getElementById(id);
-      if (details.style.display === "none") {
-        details.style.display = "block";
+    function toggleDescription(id) {
+      const description = document.getElementById(id);
+      const viewMoreLink = document.getElementById('toggle-' + id);
+
+      if (description.classList.contains('full-description')) {
+        description.classList.remove('full-description');
+        viewMoreLink.innerText = 'View More';
       } else {
-        details.style.display = "none";
+        description.classList.add('full-description');
+        viewMoreLink.innerText = 'View Less';
       }
     }
 
@@ -182,47 +247,18 @@
       var form = document.getElementById('filter-form');
       form.submit();
     }
-
-    document.querySelectorAll('.enroll-button').forEach(button => {
-    button.addEventListener('click', async function() {
-    //     const projectId = this.getAttribute('data-project-id');
-    //     const formData = new FormData();
-    //     formData.append('signedPdf', document.querySelector('#pdfInput').files[0]); // Assuming you have a file input for the PDF
-    //     formData.append('projectId', projectId); // Include projectId in the form data
-        window.location.href = '/upload';
-        // try {
-        //     const response = await fetch('/upload-pdf', {
-        //         method: 'POST',
-        //         body: formData
-        //     });
-
-        //     if (response.ok) {
-        //         // Handle successful upload and enrollment
-        //         alert("You are enrolled");
-        //     } else {
-        //         alert("Something went wrong");
-        //     }
-        // } catch (error) {
-        //     alert("An error occurred during the process.");
-        // }
-    });
-});
-
   </script>
 </head>
 
 <body>
   <%- include("partials/primaryHeader.ejs") %>
 
-  <!-- blog -->
-  <h1 class="text-6xl mt-12 font-bold text-center">Petition Categories</h1>
-
-  <!-- Filter button -->
+  <h1>Petition Categories</h1>
+<!-- 
   <div class="filter-container">
     <button class="filter-button" onclick="toggleFilterForm()">Filter</button>
-  </div>
+  </div> -->
 
-  <!-- Filter form -->
   <form id="filter-form" class="filter-form" action="/blog/filter" method="get">
     <label for="category">Category:</label>
     <input type="text" id="category" name="category">
@@ -234,43 +270,44 @@
   </form>
 
   <% blogs.forEach(blog => { %>
-    <h2 class="text-4xl mt-8 font-semibold text-center " style=" background-color: #007BFF; color:white; padding: 5px;">Category: <%= blog.category %></h2>
+    <h2 class="text-4xl mt-8 font-semibold text-center" style="background-color: #007BFF; color:white; padding: 5px;">Category: <%= blog.category %></h2>
     <div class="grid gap-12 m-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
       <% blog.projects.forEach(project => { %>
         <% if (project.status !== 'pending') { %>
-          <div class="card border rounded-lg flex flex-col justify-center cursor-pointer border-b-8 shadow-xl border-b-white hover:border-b-8 hover:border-gray-600 relative " style="background-color: #007BFF; padding: 3px;">
-            <div class="mx-4 max-w-full w-auto bg-white border shadow relative rounded-lg">
-                <div class="flex flex-col justify-center p-8 rounded-lg">
-                    <img src="<%= project.image %>" alt="Project Image" class="rounded-full w-20 h-20 mx-auto mb-4">
-                    <!-- Display number of users enrolled -->
-                    <button class="enroll-button" onclick="enrollpetition('<%= project._id %>')">Enroll</button>
-                    <p class="text-center text-sm text-white bg-gray-800 rounded-md py-1 mb-2">Users Enrolled: <%= project.usersEnrolled.length %></p>
-                    <div class="mb-4 text-xl font-semibold cursor-pointer" onclick="toggleDetails('<%= project._id %>')">
-                        Creator: <%= project.User %> 
-                        <br>
-                        Title: <%= project.title %> 
-                        <br>
-                        Dated: <%= project.date %>
-                        <br>
-                        <button class="expand-button" data-project-id="<%= project._id %>">Expand</button>
-                    </div>
-                    <div id="<%= project._id %>" class="project-details">
-                        <div class="description">
-                            <p class="my-2 font-light text-lg">Description: <span class="highlight"><%= project.description %></span></p>
-                            <p class="my-2 font-light text-lg">Category: <%= project.category %></p>
-                            <p class="my-2 font-light text-lg">URL: <a href="<%= project.urlString %>" target="_blank" class="highlight"><%= project.urlString %></a></p>
-                        </div>
-                    </div>
-                </div>
+          <div class="card">
+            <div class="card-content">
+              <img src="<%= project.image.replace(/^.*(\\uploads\\.*)$/, '$1') %>" alt="Project Image" class="mx-auto mb-4">
+              
+              <button class="enroll-button" onclick="enrollpetition('<%= project._id %>')">Enroll</button>
+              <p class="text-center text-sm text-white bg-gray-800 rounded-md py-1 mb-2">Users Enrolled: <%= project.usersEnrolled.length %></p>
+          
+              <div class="card-details">
+                Creator: <%= project.User %> <br>
+                Title: <%= project.title %><br>
+                Dated: <%= project.date %> <br>
+              </div>
+              <a href="https://api.whatsapp.com/send?text=Check out this petition: <%= project.title %> - <%= project.description.substring(0, 100) %> Enroll at https://bharatkenagrik.com/blog " 
+                class="whatsapp-share-button" 
+                target="_blank" 
+                style="display: inline-block; margin-top: 2px; background:#ff416c; color: white; padding: 2px 4px; border-radius: 2px; text-decoration: none;">
+               Share
+             </a>
+              <div id="<%= project._id %>" class="description short-description">
+                <p>Description: <span class="highlight"><%= project.description %></span></p>
+              </div>
+               
+              <span id="toggle-<%= project._id %>" class="toggle-description" onclick="toggleDescription('<%= project._id %>')">View More</span>
+          
+              <!-- WhatsApp Share Button -->
+               
             </div>
-        </div>
-        
+          </div>
+          
         <% } %>
       <% }) %>
     </div>
   <% }) %>
-
-  <%- include("partials/footer.ejs") %>
 </body>
 
 </html>
+

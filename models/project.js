@@ -6,10 +6,9 @@ var ProjectSchema = new mongoose.Schema({
     category: String,
     description: String,
     date: String,
-    urlString: String, 
-    status:String,
-    image:String,
-    usersEnrolled: [String] ,
+    status: String,
+    image: String, // Path to the uploaded image file
+    usersEnrolled: [String],
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

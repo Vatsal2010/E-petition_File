@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('https://images.squarespace-cdn.com/content/v1/5952a854e6f2e1b8842d6054/1539025480107-760RHZ0NZX1LKIBWGNQU/509364546-612x612.jpg?format=1500w'); /* Replace with your actual image path */
+            background-image: url('https://images.squarespace-cdn.com/content/v1/5952a854e6f2e1b8842d6054/1539025480107-760RHZ0NZX1LKIBWGNQU/509364546-612x612.jpg?format=1500w');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -65,8 +65,8 @@
 </head>
 <body>
     <div class="container">
-        <h2>Create Petition</h2>
-        <form action="/create-project" method="POST">
+        <h2>Create Project</h2>
+        <form action="/create-project" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Project Title" required>
             <select name="category" required>
                 <option value="" disabled selected>Select Category</option>
@@ -78,8 +78,8 @@
                 <option value="Healthcare">Healthcare</option>
             </select>
             <input type="text" name="description" placeholder="Description" required>
-            <input type="url" name="url" placeholder="Project URL" required>
-            <input type="url" name="photoUrl" placeholder="Photo URL" required>
+            <!-- <input type="url" name="url" placeholder="Project URL" required> -->
+            <input type="file" name="image" accept="image/*" required>
             <button type="submit">Create</button>
         </form>
         <p class="data-safety-notice">Your data is encrypted and safe with us.</p>
