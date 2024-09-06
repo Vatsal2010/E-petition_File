@@ -221,6 +221,44 @@
   </style>
 
   <script>
+       async function enrollpetition(id) {
+           const projectId = document.getElementById(id);
+    window.location.href = `/upload/${id}`;
+        
+    }
+    document.querySelectorAll('.enroll-button').forEach(button => {
+    button.addEventListener('click', async function() {
+    //     const projectId = this.getAttribute('data-project-id');
+    //     const formData = new FormData();
+    //     formData.append('signedPdf', document.querySelector('#pdfInput').files[0]); // Assuming you have a file input for the PDF
+    //     formData.append('projectId', projectId); // Include projectId in the form data
+        window.location.href = '/upload';
+        // try {
+        //     const response = await fetch('/upload-pdf', {
+        //         method: 'POST',
+        //         body: formData
+        //     });
+
+        //     if (response.ok) {
+        //         // Handle successful upload and enrollment
+        //         alert("You are enrolled");
+        //     } else {
+        //         alert("Something went wrong");
+        //     }
+        // } catch (error) {
+        //     alert("An error occurred during the process.");
+        // }
+    });
+});
+    function toggleDetails(id) {
+      var details = document.getElementById(id);
+      if (details.style.display === "none") {
+        details.style.display = "block";
+      } else {
+        details.style.display = "none";
+
+      }
+    }
     function toggleDescription(id) {
       const description = document.getElementById(id);
       const viewMoreLink = document.getElementById('toggle-' + id);
