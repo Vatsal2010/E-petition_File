@@ -241,10 +241,11 @@ router.post('/request-otp', (req, res) => {
         });
     });
    
-  // Multer storage configuration
+//   Multer storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'C:\\Users\\hp\\Documents\\E-PeititonFiling\\public\\uploads'); // Folder where images will be saved
+        // cb(null, '\uploads'); // Folder where images will be saved
+        cb(null, path.join(__dirname, '../public/uploads'));
     },
     filename: function (req, file, cb) {
         if(file.originalname)console.log(file.originalname);
@@ -253,6 +254,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+// const upload=multer({ dest: '/public/uploads/' });
 
 // Route to handle project creation
 router.post('/create-project', middleware.isLoggedIn, upload.single('image'), function (req, res) {
