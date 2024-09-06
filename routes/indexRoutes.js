@@ -244,17 +244,14 @@ router.post('/request-otp', (req, res) => {
 //   Multer storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // cb(null, '\uploads'); // Folder where images will be saved
-        cb(null, path.join(__dirname, '../public/uploads'));
+        cb(null, path.join(__dirname, '../public/uploads')); // Correct path for saving files
     },
     filename: function (req, file, cb) {
-        if(file.originalname)console.log(file.originalname);
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Unique filename with extension
     }
 });
 
 const upload = multer({ storage: storage });
-// const upload=multer({ dest: '/public/uploads/' });
 
 // Route to handle project creation
 router.post('/create-project', middleware.isLoggedIn, upload.single('image'), function (req, res) {
@@ -279,7 +276,7 @@ router.post('/create-project', middleware.isLoggedIn, upload.single('image'), fu
                 description: req.body.description,
                 date: middleware.todaysDate(),
                 status: 'pending',
-                image: req.file ? req.file.path : null // Handle case where file might not be uploaded
+                image: req.file ? `/static/uploads/${req.file.filename}` : null // Handle case where file might not be uploaded
             };
             console.log(req.file);
             if(req.file){console.log("file is uploaded")

@@ -276,7 +276,7 @@
         <% if (project.status !== 'pending') { %>
           <div class="card">
             <div class="card-content">
-              <img src="<%= project.image.replace(/^.*(\\uploads\\.*)$/, '$1') %>" alt="Project Image" class="mx-auto mb-4">
+              <img src="<%= project.image %>" alt="Project Image" class="mx-auto mb-4">
               
               <button class="enroll-button" onclick="enrollpetition('<%= project._id %>')">Enroll</button>
               <p class="text-center text-sm text-white bg-gray-800 rounded-md py-1 mb-2">Users Enrolled: <%= project.usersEnrolled.length %></p>
