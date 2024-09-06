@@ -35,10 +35,15 @@
         }
         li {
             margin: 10px 0;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        li:hover {
+            background-color: #e1eaff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         li h3 {
             margin: 0;
@@ -46,6 +51,11 @@
         li div {
             display: none;
             margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        li[aria-expanded="true"] div {
+            display: block;
         }
         footer {
             text-align: center;
@@ -59,19 +69,18 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #3452eb;
+            background-color: #2e3bdb;
         }
     </style>
     <script>
-        function toggleProjectDetails(id) {
+        function toggleProjectDetails(id, element) {
             const projectDetails = document.getElementById(id);
-            if (projectDetails.style.display === 'none' || projectDetails.style.display === '') {
-                projectDetails.style.display = 'block';
-            } else {
-                projectDetails.style.display = 'none';
-            }
+            const isExpanded = element.getAttribute('aria-expanded') === 'true';
+            element.setAttribute('aria-expanded', !isExpanded);
+            projectDetails.style.display = isExpanded ? 'none' : 'block';
         }
     </script>
 </head>
@@ -82,24 +91,28 @@
 
     <section id="user-info">
         <h2>User Information</h2>
-        <p><strong>Customer ID:</strong> <%= user.customerId %></p>
-        <p><strong>Email:</strong> <%= user.email %></p>
         <p><strong>Username:</strong> <%= user.username %></p>
+        <p><strong>Email:</strong> <%= user.email %></p>
         <p><strong>Subscription Status:</strong> <%= user.subscriptionStatus %></p>
     </section>
-
+    <footer>
+        <button onclick="window.location.href='/'">Home</button>
+        <button onclick="window.location.href='/create-project'">Create Petition</button>
+    </footer>
     <section id="projects">
         <h2>Your Petitions</h2>
         <% if (user.projects.length > 0) { %>
             <ul>
                 <% user.projects.forEach(function(project, index) { %>
-                    <li onclick="toggleProjectDetails('project-<%= index %>')">
+                    <li 
+                        onclick="toggleProjectDetails('project-<%= index %>', this)"
+                        aria-expanded="false"
+                    >
                         <h3><%= project.title %></h3>
                         <div id="project-<%= index %>">
                             <p><strong>Category:</strong> <%= project.category %></p>
                             <p><strong>Date:</strong> <%= project.date %></p>
                             <p><strong>Description:</strong> <%= project.description %></p>
-                            <!-- <p><strong>URL:</strong> <a href="<%= project.url %>" target="_blank"><%= project.url %></a></p> -->
                         </div>
                     </li>
                 <% }); %>
@@ -109,9 +122,6 @@
         <% } %>
     </section>
 
-    <footer>
-        <button onclick="window.location.href='/'">Home</button>
-        <button onclick="window.location.href='/create-project'">Create Petition</button>
-    </footer>
+     
 </body>
 </html>
