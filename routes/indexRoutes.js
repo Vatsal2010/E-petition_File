@@ -276,7 +276,8 @@ router.post('/create-project', middleware.isLoggedIn, upload.single('image'), fu
                 description: req.body.description,
                 date: middleware.todaysDate(),
                 status: 'pending',
-                image: req.file ? `/static/uploads/${req.file.filename}` : null // Handle case where file might not be uploaded
+                // image: req.file ? `/static/uploads/${req.file.filename}` : null // Handle case where file might not be uploaded
+                image: req.file ? `/static/uploads/${req.file.filename}` : null 
             };
             console.log(req.file);
             if(req.file){console.log("file is uploaded")
