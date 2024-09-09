@@ -228,26 +228,26 @@
     }
     document.querySelectorAll('.enroll-button').forEach(button => {
     button.addEventListener('click', async function() {
-    //     const projectId = this.getAttribute('data-project-id');
-    //     const formData = new FormData();
-    //     formData.append('signedPdf', document.querySelector('#pdfInput').files[0]); // Assuming you have a file input for the PDF
-    //     formData.append('projectId', projectId); // Include projectId in the form data
+        const projectId = this.getAttribute('data-project-id');
+        const formData = new FormData();
+        formData.append('signedPdf', document.querySelector('#pdfInput').files[0]); // Assuming you have a file input for the PDF
+        formData.append('projectId', projectId); // Include projectId in the form data
         window.location.href = '/upload';
-        // try {
-        //     const response = await fetch('/upload-pdf', {
-        //         method: 'POST',
-        //         body: formData
-        //     });
+        try {
+            const response = await fetch('/upload-pdf', {
+                method: 'POST',
+                body: formData
+            });
 
-        //     if (response.ok) {
-        //         // Handle successful upload and enrollment
-        //         alert("You are enrolled");
-        //     } else {
-        //         alert("Something went wrong");
-        //     }
-        // } catch (error) {
-        //     alert("An error occurred during the process.");
-        // }
+            if (response.ok) {
+                // Handle successful upload and enrollment
+                alert("You are enrolled");
+            } else {
+                alert("Something went wrong");
+            }
+        } catch (error) {
+            alert("An error occurred during the process.");
+        }
     });
 });
     function toggleDetails(id) {
