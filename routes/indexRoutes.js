@@ -257,28 +257,22 @@ cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
-  
-  // Cloudinary storage configuration using multer
-  const storage = new CloudinaryStorage({
+});
+
+// Multer storage configuration for Cloudinary
+const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: 'projects', // Folder where images will be stored on Cloudinary
-      allowed_formats: ['jpg', 'png', 'jpeg'],
-      public_id: (req, file) => `project_${Date.now()}`, // Generate unique public ID
+        folder: 'projects', // Folder name in Cloudinary
+        allowed_formats: ['jpg', 'jpeg', 'png'],
     },
-  });
-  
+});
 
 const upload = multer({ storage: storage });
 
-
-
-
-// Route to handle project creation
-router.post('/create-project', middleware.isLoggedIn, upload.single('image'), function (req, res) {
+// POST route to handle project creation with multiple images
+router.post('/create-project', middleware.isLoggedIn, upload.array('images', 5), function (req, res) { // Limit to 5 images
     User.findOne({ email: req.user.email }, (err, user) => {
-        console.log("inside /create-project")
         if (err) {
             console.log('Error finding user:', err);
             return res.status(500).send('Internal Server Error');
@@ -289,8 +283,11 @@ router.post('/create-project', middleware.isLoggedIn, upload.single('image'), fu
         }
 
         if (user.subscriptionStatus === 'active') {
-            console.log("console user exists")
-            console.log(req.body)
+            // Collect Cloudinary URLs of uploaded images
+            console.log(req.files); // Check what files are being uploaded
+
+            const imageUrls = req.files.map(file => file.path);
+
             const projectData = {
                 User: req.user.username,
                 title: req.body.title,
@@ -298,32 +295,21 @@ router.post('/create-project', middleware.isLoggedIn, upload.single('image'), fu
                 description: req.body.description,
                 date: middleware.todaysDate(),
                 status: 'pending',
-                // image: req.file ? `/static/uploads/${req.file.filename}` : null // Handle case where file might not be uploaded
-                image: req.file ? req.file.path : null 
+                images: imageUrls, // Store the Cloudinary URLs in the database
             };
-            console.log(req.file);
-            if(req.file){console.log("file is uploaded")
-                console.log(req.file.path)
-            }
+
             Project.create(projectData, function (err, project) {
                 if (err) {
                     console.log('Error creating project:', err);
                     return res.status(500).send('Internal Server Error');
                 }
 
-                User.findOne({ email: req.user.email }, function (err, foundUser) {
+                user.projects.push(project);
+                user.save(function (err) {
                     if (err) {
-                        console.log('Error finding user:', err);
+                        console.log('Error saving user:', err);
                         return res.status(500).send('Internal Server Error');
                     }
-
-                    foundUser.projects.push(project);
-                    foundUser.save(function (err) {
-                        if (err) {
-                            console.log('Error saving user:', err);
-                            return res.status(500).send('Internal Server Error');
-                        }
-                    });
                 });
 
                 Blog.findOne({ category: req.body.category }, function (err, foundCategory) {
@@ -350,7 +336,6 @@ router.post('/create-project', middleware.isLoggedIn, upload.single('image'), fu
         }
     });
 });
-
   router.post('/projects/:id/verify', async (req, res) => {
     try {
       const projectId = req.params.id;

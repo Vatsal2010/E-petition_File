@@ -7,7 +7,7 @@ var ProjectSchema = new mongoose.Schema({
     description: String,
     date: String,
     status: String,
-    image: String, // Path to the uploaded image file
+    images: [String], // Path to the uploaded image file
     usersEnrolled: [String],
 });
 

@@ -77,9 +77,8 @@
                 <option value="Sports">Sports</option>
                 <option value="Healthcare">Healthcare</option>
             </select>
-            <input type="text" name="description" placeholder="Description" required>
-            <!-- <input type="url" name="url" placeholder="Project URL" required> -->
-            <input type="file" name="image" accept="image/*" required>
+            <textarea name="description" placeholder="Project Description" required></textarea>
+            <input type="file" name="images" accept="image/*" multiple required> <!-- Multiple images -->
             <button type="submit">Create</button>
         </form>
         <p class="data-safety-notice">Your data is encrypted and safe with us.</p>
