@@ -12,6 +12,8 @@ const ContactQuery = require("../models/contactQuery");
 const middleware = require('../middleware/middleware'); 
 const multer = require("multer");
 const path = require("path"); 
+const { v2: cloudinary } = require('cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 require('dotenv').config();
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -242,16 +244,36 @@ router.post('/request-otp', (req, res) => {
     });
    
 //   Multer storage configuration
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../public/uploads')); // Correct path for saving files
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, path.join(__dirname, '../public/uploads')); // Correct path for saving files
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Unique filename with extension
+//     }
+// });
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+  
+  // Cloudinary storage configuration using multer
+  const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'projects', // Folder where images will be stored on Cloudinary
+      allowed_formats: ['jpg', 'png', 'jpeg'],
+      public_id: (req, file) => `project_${Date.now()}`, // Generate unique public ID
     },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Unique filename with extension
-    }
-});
+  });
+  
 
 const upload = multer({ storage: storage });
+
+
+
 
 // Route to handle project creation
 router.post('/create-project', middleware.isLoggedIn, upload.single('image'), function (req, res) {
@@ -277,7 +299,7 @@ router.post('/create-project', middleware.isLoggedIn, upload.single('image'), fu
                 date: middleware.todaysDate(),
                 status: 'pending',
                 // image: req.file ? `/static/uploads/${req.file.filename}` : null // Handle case where file might not be uploaded
-                image: req.file ? `/static/uploads/${req.file.filename}` : null 
+                image: req.file ? req.file.path : null 
             };
             console.log(req.file);
             if(req.file){console.log("file is uploaded")
