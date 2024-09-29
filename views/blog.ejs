@@ -331,12 +331,13 @@
                 Title: <%= project.title %><br>
                 Dated: <%= project.date %> <br>
               </div>
-              <a href="https://api.whatsapp.com/send?text=Check out this petition: <%= project.title %> - <%= project.description.substring(0, 100) %> Enroll at https://bharatkenagrik.com/blog " 
+              <a href="https://api.whatsapp.com/send?text=Check out this petition: <%= project.title %> - <%= project.description.substring(0, 100) %> %0AEnroll at https://bharatkenagrik.com/blog %0AImage: <%= project.images[0] %>" 
                 class="whatsapp-share-button" 
                 target="_blank" 
                 style="display: inline-block; margin-top: 2px; background:#ff416c; color: white; padding: 2px 4px; border-radius: 2px; text-decoration: none;">
-               Share
+                Share
              </a>
+             
               <div id="<%= project._id %>" class="description short-description">
                 <p>Description: <span class="highlight"><%= project.description %></span></p>
               </div>
