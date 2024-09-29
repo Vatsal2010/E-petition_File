@@ -105,7 +105,7 @@ app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
     // After successful upload and save, trigger the enrollment process
     const projectId = req.body.userId; // Assuming projectId is passed in the request body
     console.log(projectId);
-    const enrollResponse = await fetch('http://localhost:3000/enroll', {
+    const enrollResponse = await fetch('https://bharatkenagrik.com/enroll', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
