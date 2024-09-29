@@ -17,14 +17,6 @@ const paymentRouter = require('./routes/paymentRoutes');
 const multer = require('multer'); 
 const fs = require('fs');
 const user = require("./models/user");
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-// const path = require('path');
-const fetch = require('node-fetch');
-// const fs = require('fs');
 require('dotenv').config()
  
 const PORT = process.env.PORT || 3000;
@@ -62,60 +54,48 @@ app.use('/admin', adminRouter);
 app.use('/payment', paymentRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
-  
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
  
+// Define the schema and model for signed PDFs
 const signedPdfSchema = new mongoose.Schema({
   filename: String,
-  url: String, // Storing Cloudinary URL
+  data: Buffer,
   contentType: String,
 });
 
 const SignedPdf = mongoose.model('SignedPdf', signedPdfSchema);
 
-// Configure Cloudinary Storage for Multer
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'pdf_uploads',  // Specify the folder to store the PDFs
-    resource_type: 'raw',   // 'raw' because PDFs are non-image files
-    format: async () => 'pdf',  // Ensure the format is PDF
-  },
-});
- 
-const upload = multer({ storage: storage });
- 
+// Configure Multer for file uploads
+const upload = multer({ dest: 'uploads/' });
+
+// Route to render the home page with download and upload options
+// Route to render the upload page
 app.get('/upload/:id', (req, res) => {
   let id = req.params.id;
-  res.render('upload', { id });
+  res.render('upload',{id});
 });
 
-// Route to handle PDF download from local file (if necessary)
+// Route to handle PDF download
 app.get('/download-pdf', (req, res) => {
   const filePath = path.join(__dirname, 'public', 'EPetitionFile.pdf');
   res.download(filePath);
 });
 
-// Route to handle PDF upload and trigger enrollment process
+// Route to handle PDF upload and trigger enrollment
 app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
+  // console.log(req.body);
   try {
-    // req.file will contain information about the uploaded PDF on Cloudinary
-    const uploadedPdfUrl = req.file.path; // Cloudinary URL for the uploaded PDF
+    const filePath = path.join(__dirname, 'uploads', req.file.filename);
+    const fileData = fs.readFileSync(filePath);
 
-    // Save the Cloudinary URL and other details to the database
     const newPdf = new SignedPdf({
       filename: req.file.originalname,
-      url: uploadedPdfUrl,  // Store Cloudinary URL
-      contentType: req.file.mimetype,
+      data: fileData,
+      contentType: 'application/pdf',
     });
 
-    await newPdf.save(); // Save the PDF information in MongoDB
+    await newPdf.save(); // Save the uploaded PDF to the database
 
-    // Fetch the most recent PDF from the database (if needed)
+    // Get the most recently uploaded PDF
     const pdf = await SignedPdf.findOne().sort({ _id: -1 }).exec();
 
     if (!pdf) {
@@ -125,13 +105,12 @@ app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
     // After successful upload and save, trigger the enrollment process
     const projectId = req.body.userId; // Assuming projectId is passed in the request body
     console.log(projectId);
-
-    const enrollResponse = await fetch('https://e-petition-file.onrender.com/enroll', {
+    const enrollResponse = await fetch('http://localhost:3000/enroll', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ projectId }),
+      body: JSON.stringify({ projectId })
     });
 
     if (enrollResponse.ok) {
@@ -143,9 +122,25 @@ app.post('/upload-pdf', upload.single('signedPdf'), async (req, res) => {
     }
   } catch (error) {
     console.error('Error saving file or enrolling:', error);
-    res.status(500).send('Error occurred during the process',error);
+    res.status(500).send('Error occurred during the process');
   }
 });
+
+// Route to display the uploaded PDF
+// app.get('/display', async (req, res) => {
+//   try {
+//     const pdf = await SignedPdf.findOne().sort({ _id: -1 }).exec(); // Get the most recent PDF
+
+//     if (!pdf) {
+//       return res.status(404).send('No signed PDF found');
+//     }
+
+//     res.render('display', { pdf });
+//   } catch (error) {
+//     console.error('Error fetching PDF:', error);
+//     res.status(500).send('Error fetching PDF');
+//   }
+// });
 
  
 
